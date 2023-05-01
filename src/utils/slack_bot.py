@@ -125,5 +125,7 @@ class Slack:
             }
         }
 
-    def post_message_in_channel(self, channel_id, message):
-        self.client.chat_postMessage(channel=channel_id, text=message)
+    def send_status_message(self, user, message):
+        print(user)
+        self.client.chat_postMessage(
+            channel=self.user_questions[user]["dm_channel"], text=message)
