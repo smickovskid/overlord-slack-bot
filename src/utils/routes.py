@@ -3,6 +3,7 @@ from slackeventsapi import SlackEventAdapter
 from .slack_bot import Slack
 import json
 import os
+import datetime
 
 SLACK_SIGNING_SECRET = os.environ['SLACK_SIGNING_SECRET']
 VERIFICATION_TOKEN = os.environ['SLACK_SIGNING_SECRET']
@@ -58,34 +59,35 @@ class Routes:
                     print(daily_update)
                     print(automation_reason)
                     print(blockers)
-                    send_status_message = self.slack.send_status_message(
+                    today = datetime.today()
+                    self.slack.send_status_message(
                         user, [
                             {
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": f"Update from <@{user}>\n"
+                                    "text": f"*Update from* <@{user}> - {today}\n"
                                 }
                             },
                             {
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": f"What did you acomplish today?\n>{daily_update}\n>"
+                                    "text": f"*What did you acomplish today?*\n>{daily_update}\n>"
                                 }
                             },
                             {
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": f"Did you automate any test cases?\n>{automation_reason}\n>"
+                                    "text": f"*Did you automate any test cases?*\n>{automation_reason}\n>"
                                 }
                             },
                             {
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": f"Do you have any blockers?\n>{blockers}\n>"
+                                    "text": f"*Do you have any blockers?*\n>{blockers}\n>"
                                 }
                             }
                         ])
