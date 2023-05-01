@@ -59,6 +59,28 @@ class Routes:
                     print(automation_reason)
                     print(blockers)
                     send_status_message = self.slack.send_status_message(
-                        user, daily_update)
+                        user, [
+                            {
+                                "type": "section",
+                                "text": {
+                                    "type": "mrkdwn",
+                                    "text": f"What did you acomplish today?\n>{daily_update}\n>"
+                                }
+                            },
+                            {
+                                "type": "section",
+                                "text": {
+                                    "type": "mrkdwn",
+                                    "text": "Did you automate any test cases?\n>{automation_reason}\n>}"
+                                }
+                            },
+                            {
+                                "type": "section",
+                                "text": {
+                                    "type": "mrkdwn",
+                                    "text": "Do you have any blockers?\n>{blockers}\n>"
+                                }
+                            }
+                        ])
 
             return Response(status=200)
