@@ -64,6 +64,13 @@ class Routes:
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
+                                    "text": f"Update from <@{user}>\n"
+                                }
+                            },
+                            {
+                                "type": "section",
+                                "text": {
+                                    "type": "mrkdwn",
                                     "text": f"What did you acomplish today?\n>{daily_update}\n>"
                                 }
                             },
@@ -71,14 +78,14 @@ class Routes:
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": "Did you automate any test cases?\n>{automation_reason}\n>}"
+                                    "text": f"Did you automate any test cases?\n>{automation_reason}\n>"
                                 }
                             },
                             {
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": "Do you have any blockers?\n>{blockers}\n>"
+                                    "text": f"Do you have any blockers?\n>{blockers}\n>"
                                 }
                             }
                         ])
