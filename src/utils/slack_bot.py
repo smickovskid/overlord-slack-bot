@@ -27,7 +27,7 @@ class Slack:
                 self.client.chat_postMessage(
                     channel=dm_channel, text=question, blocks=trigger_block)
                 self.user_questions[user] = {
-                    "dm_channel": dm_channel,
+                    "dm_channel": "C04RH4ZBK5X",
                     "question": {
                         "stage": 1,
                         "text": question
