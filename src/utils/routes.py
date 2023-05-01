@@ -59,5 +59,7 @@ class Routes:
                     print(daily_update)
                     print(automation_reason)
                     print(blockers)
+                    send_status_message = self.slack.send_status_message(
+                        user, daily_update)
 
             return Response(status=200)

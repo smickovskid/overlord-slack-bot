@@ -125,10 +125,6 @@ class Slack:
             }
         }
 
-    def handle_user_response(self, user, answer):
-        user_question_info = self.user_questions.get(user)
-
-        if user_question_info is None:
-            return None, False
-
-        print(user_question_info)
+    def send_status_message(self, user, message):
+        self.client.chat_postMessage(
+            channel=self.user_questions[user]["dm_channel"], text=message)
