@@ -1,13 +1,8 @@
-# routes.py
-
 from flask import Flask, Response, request
 from slackeventsapi import SlackEventAdapter
 from .slack_bot import Slack
-from threading import Thread
 import json
 import os
-
-app = Flask(__name__)
 
 SLACK_SIGNING_SECRET = os.environ['SLACK_SIGNING_SECRET']
 VERIFICATION_TOKEN = os.environ['SLACK_SIGNING_SECRET']
@@ -17,8 +12,6 @@ channel_id = "C04RH4ZBK5X"
 
 slack = Slack(slack_token, channel_id)
 
-greetings = ["hi", "hello", "hello there", "hey"]
-
 
 class Routes:
     def __init__(self, app, slack):
@@ -26,36 +19,6 @@ class Routes:
         self.slack = slack
         self.slack_events_adapter = SlackEventAdapter(
             SLACK_SIGNING_SECRET, "/slack/events", app)
-
-        @self.slack_events_adapter.on("app_mention")
-        def handle_message(event_data):
-            def send_reply(value):
-                event_data = value
-                message = event_data["event"]
-                if message.get("subtype") is None:
-                    command = message.get("text")
-                    user = message["user"]
-
-                    if user in self.slack.user_questions:
-                        response, post_in_channel = self.slack.handle_user_response(
-                            user, command)
-                        if post_in_channel:
-                            self.slack.client.chat_postMessage(
-                                channel=channel_id, text=response)
-                        else:
-                            dm_channel = message["channel"]
-                            self.slack.client.chat_postMessage(
-                                channel=dm_channel, text=response)
-                    else:
-                        channel = message["channel"]
-                        if any(item in command.lower() for item in greetings):
-                            message = "Hello <@%s>! :tada:" % message["user"]
-                            self.slack.client.chat_postMessage(
-                                channel=channel, text=message)
-
-            thread = Thread(target=send_reply, kwargs={"value": event_data})
-            thread.start()
-            return Response(status=200)
 
         @self.app.route("/")
         def event_hook():
@@ -72,29 +35,15 @@ class Routes:
         @self.app.route("/slack/interaction", methods=["POST"])
         def handle_interaction():
             payload = json.loads(request.form["payload"])
-
             if payload["type"] == "block_actions":
                 action_id = payload["actions"][0]["action_id"]
                 user = payload["user"]["id"]
 
                 if action_id == "open_modal" and user in self.slack.user_questions:
                     trigger_id = payload["trigger_id"]
-                    dm_channel = self.slack.user_questions[user]["dm_channel"]
                     input_block = self.slack.user_questions[user]["input_block"]
 
-                    modal_view = {
-                        "type": "modal",
-                        "callback_id": "submit_modal",
-                        "title": {
-                            "type": "plain_text",
-                            "text": "Your Answer"
-                        },
-                        "blocks": input_block,
-                        "submit": {
-                            "type": "plain_text",
-                            "text": "Submit"
-                        }
-                    }
+                    modal_view = self.slack.create_modal_view(input_block)
 
                     self.slack.client.views_open(
                         trigger_id=trigger_id, view=modal_view)
@@ -104,17 +53,9 @@ class Routes:
                 user = payload["user"]["id"]
 
                 if callback_id == "submit_modal" and user in self.slack.user_questions:
-                    input_value = payload["view"]["state"]["values"]["user_input"]["input_text"]["value"]
-                    response, post_in_channel = self.slack.handle_user_response(
-                        user, input_value)
-
-                    if post_in_channel:
-                        self.slack.client.chat_postMessage(
-                            channel=channel_id, text=response)
-                    else:
-                        print(self.slack.user_questions[user])
+                    input_value = payload["view"]["state"]["values"]["automation_count"]["input_text"]["value"]
+                    input_valu2 = payload["view"]["state"]["values"]["automation_reason"]["input_text"]["value"]
+                    print(input_value)
+                    print(input_valu2)
 
             return Response(status=200)
-
-
-routes = Routes(app, slack)

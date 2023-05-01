@@ -14,7 +14,8 @@ routes = Routes(app, slack)
 
 
 def start_app():
-    slack.send_question_to_users("Test question")
+    question = "How many automated test cases did you write today?"
+    slack.send_question_to_users(question)
     app.run(port=5500)
 
 
