@@ -56,9 +56,6 @@ class Routes:
                     daily_update = payload["view"]["state"]["values"]["daily_update"]["input_text"]["value"]
                     automation_reason = payload["view"]["state"]["values"]["automation_reason"]["input_text"]["value"]
                     blockers = payload["view"]["state"]["values"]["blockers"]["input_text"]["value"]
-                    print(daily_update)
-                    print(automation_reason)
-                    print(blockers)
                     today = datetime.today()
                     self.slack.send_status_message(
                         user, [
