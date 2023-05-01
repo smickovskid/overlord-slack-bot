@@ -20,7 +20,7 @@ def send_daily_question():
 
 
 def schedule_daily_question():
-    schedule.every().day.at("15:31").do(send_daily_question)
+    schedule.every().day.at("18:32").do(send_daily_question)
     while True:
         schedule.run_pending()
         time.sleep(1)
