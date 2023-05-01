@@ -8,7 +8,6 @@ SLACK_SIGNING_SECRET = os.environ['SLACK_SIGNING_SECRET']
 VERIFICATION_TOKEN = os.environ['SLACK_SIGNING_SECRET']
 
 slack_token = os.environ['SLACK_BOT_TOKEN']
-channel_id = "C04RH4ZBK5X"
 
 slack = Slack(slack_token)
 
@@ -59,7 +58,7 @@ class Routes:
                     print(daily_update)
                     print(automation_reason)
                     print(blockers)
-                    send_status_message = self.slack.send_status_message(
-                        user, daily_update)
+                    self.slack.send_status_message(
+                        "C04RH4ZBK5X", daily_update)
 
             return Response(status=200)
