@@ -3,18 +3,17 @@ from slack_sdk import WebClient
 
 
 class Slack:
-    def __init__(self, slack_token, channel_id):
+    def __init__(self, slack_token):
         self.slack_token = slack_token
         self.client = WebClient(self.slack_token)
-        self.channel_id = channel_id
         self.user_questions = {}
 
-    def get_channel_members(self):
-        response = self.client.conversations_members(channel=self.channel_id)
+    def get_channel_members(self, channel=None):
+        response = self.client.conversations_members(channel=channel)
         return response['members']
 
-    def send_question_to_users(self, question):
-        users = self.get_channel_members()
+    def send_question_to_users(self, question, channel=None):
+        users = self.get_channel_members(channel)
         trigger_block = self.create_trigger_block(question)
         input_block = self.create_input_block()
 

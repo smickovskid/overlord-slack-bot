@@ -10,7 +10,7 @@ VERIFICATION_TOKEN = os.environ['SLACK_SIGNING_SECRET']
 slack_token = os.environ['SLACK_BOT_TOKEN']
 channel_id = "C04RH4ZBK5X"
 
-slack = Slack(slack_token, channel_id)
+slack = Slack(slack_token)
 
 
 class Routes:
