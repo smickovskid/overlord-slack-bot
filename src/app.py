@@ -16,11 +16,11 @@ routes = Routes(app, slack)
 
 def send_daily_question():
     question = "How many automated test cases did you write today?"
-    slack.send_question_to_users(question)
+    slack.send_question_to_users(question, channel_id)
 
 
 def schedule_daily_question():
-    schedule.every().day.at("18:32").do(send_daily_question)
+    schedule.every().day.at("19:08").do(send_daily_question)
     while True:
         schedule.run_pending()
         time.sleep(1)
