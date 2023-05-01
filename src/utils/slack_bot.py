@@ -71,11 +71,11 @@ class Slack:
             },
             {
                 "type": "input",
-                "multiline": True,
                 "block_id": "automation_reason",
                 "element": {
                     "type": "plain_text_input",
-                    "action_id": "input_text"
+                    "action_id": "input_text",
+                    "multiline": True
                 },
                 "label": {
                     "type": "plain_text",
