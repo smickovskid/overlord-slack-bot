@@ -53,9 +53,11 @@ class Routes:
                 user = payload["user"]["id"]
 
                 if callback_id == "submit_modal" and user in self.slack.user_questions:
-                    input_value = payload["view"]["state"]["values"]["automation_count"]["input_text"]["value"]
-                    input_valu2 = payload["view"]["state"]["values"]["automation_reason"]["input_text"]["value"]
-                    print(input_value)
-                    print(input_valu2)
+                    daily_update = payload["view"]["state"]["values"]["daily_update"]["input_text"]["value"]
+                    automation_reason = payload["view"]["state"]["values"]["automation_reason"]["input_text"]["value"]
+                    blockers = payload["view"]["state"]["values"]["blockers"]["input_text"]["value"]
+                    print(daily_update)
+                    print(automation_reason)
+                    print(blockers)
 
             return Response(status=200)

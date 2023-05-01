@@ -59,28 +59,54 @@ class Slack:
         return [
             {
                 "type": "input",
-                "block_id": "automation_count",
-                "element": {
-                    "type": "plain_text_input",
-                    "action_id": "input_text"
-                },
+                        "block_id": "daily_update",
+                        "element": {
+                            "type": "plain_text_input",
+                            "action_id": "input_text",
+                            "multiline": True,
+                            "placeholder": {
+                                    "type": "plain_text",
+                                    "text": "Enter tasks that you tested and closed"
+                            }
+                        },
                 "label": {
-                    "type": "plain_text",
-                    "text": "Enter the number of automated test cases you have written today"
-                }
+                            "type": "plain_text",
+                            "text": "What did you accomplish today?"
+                        }
             },
             {
                 "type": "input",
-                "block_id": "automation_reason",
-                "element": {
-                    "type": "plain_text_input",
-                    "action_id": "input_text",
-                    "multiline": True
-                },
+                        "block_id": "automation_reason",
+                        "element": {
+                            "type": "plain_text_input",
+                            "action_id": "input_text",
+                            "multiline": True,
+                            "placeholder": {
+                                    "type": "plain_text",
+                                    "text": "Add Testrail ID's or reason why you didn't"
+                            }
+                        },
                 "label": {
-                    "type": "plain_text",
-                    "text": "Explain the reason on why you have not automated at least 1 test case"
-                }
+                            "type": "plain_text",
+                            "text": "Did you automate any test cases?"
+                        }
+            },
+            {
+                "type": "input",
+                        "block_id": "blockers",
+                        "element": {
+                            "type": "plain_text_input",
+                            "action_id": "input_text",
+                            "multiline": True,
+                            "placeholder": {
+                                    "type": "plain_text",
+                                    "text": "Add JIRA tickets or links as well"
+                            }
+                        },
+                "label": {
+                            "type": "plain_text",
+                            "text": "Do you have any blockers?"
+                        }
             }
         ]
 

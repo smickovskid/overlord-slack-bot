@@ -15,12 +15,13 @@ routes = Routes(app, slack)
 
 
 def send_daily_question():
-    question = "Daily update"
+    today = time.strftime("%d/%m/%Y")
+    question = f"Daily update - {today}"
     slack.send_question_to_users(question, channel_id)
 
 
 def schedule_daily_question():
-    schedule.every().day.at("19:12").do(send_daily_question)
+    schedule.every().day.at("19:35").do(send_daily_question)
     while True:
         schedule.run_pending()
         time.sleep(1)
