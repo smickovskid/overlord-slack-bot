@@ -3,7 +3,7 @@ from slackeventsapi import SlackEventAdapter
 from .slack_bot import Slack
 import json
 import os
-import datetime
+import time
 
 SLACK_SIGNING_SECRET = os.environ['SLACK_SIGNING_SECRET']
 VERIFICATION_TOKEN = os.environ['SLACK_SIGNING_SECRET']
@@ -56,7 +56,7 @@ class Routes:
                     daily_update = payload["view"]["state"]["values"]["daily_update"]["input_text"]["value"]
                     automation_reason = payload["view"]["state"]["values"]["automation_reason"]["input_text"]["value"]
                     blockers = payload["view"]["state"]["values"]["blockers"]["input_text"]["value"]
-                    today = datetime.today()
+                    today = time.strftime("%d/%m/%Y")
                     self.slack.send_status_message(
                         user, [
                             {
