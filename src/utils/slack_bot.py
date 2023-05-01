@@ -71,6 +71,7 @@ class Slack:
             },
             {
                 "type": "input",
+                "multiline": True,
                 "block_id": "automation_reason",
                 "element": {
                     "type": "plain_text_input",
