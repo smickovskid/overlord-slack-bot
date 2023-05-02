@@ -3,8 +3,10 @@ from slack_sdk import WebClient
 
 
 class Slack:
-    def __init__(self, slack_token):
-        self.slack_token = slack_token
+    def __init__(self):
+        self.slack_signing_secret = os.environ['SLACK_SIGNING_SECRET']
+        self.verification_token = os.environ['SLACK_SIGNING_SECRET']
+        self.slack_token = os.environ['SLACK_BOT_TOKEN']
         self.client = WebClient(self.slack_token)
         self.user_questions = {}
 
@@ -27,7 +29,7 @@ class Slack:
                 self.client.chat_postMessage(
                     channel=dm_channel, text=question, blocks=trigger_block)
                 self.user_questions[user] = {
-                    "dm_channel": "C04RH4ZBK5X",
+                    "dm_channel": channel,
                     "question": {
                         "stage": 1,
                         "text": question

@@ -5,18 +5,13 @@ import json
 import os
 import time
 
-SLACK_SIGNING_SECRET = os.environ['SLACK_SIGNING_SECRET']
-VERIFICATION_TOKEN = os.environ['SLACK_SIGNING_SECRET']
-
-slack_token = os.environ['SLACK_BOT_TOKEN']
-
-slack = Slack(slack_token)
-
 
 class Routes:
-    def __init__(self, app, slack):
+    def __init__(self, app: Flask, slack: Slack):
         self.app = app
         self.slack = slack
+        SLACK_SIGNING_SECRET = slack.slack_signing_secret
+        VERIFICATION_TOKEN = slack.verification_token
         self.slack_events_adapter = SlackEventAdapter(
             SLACK_SIGNING_SECRET, "/slack/events", app)
 
@@ -39,6 +34,7 @@ class Routes:
                 action_id = payload["actions"][0]["action_id"]
                 user = payload["user"]["id"]
 
+                # Open modal action check
                 if action_id == "open_modal" and user in self.slack.user_questions:
                     trigger_id = payload["trigger_id"]
                     input_block = self.slack.user_questions[user]["input_block"]
@@ -48,6 +44,7 @@ class Routes:
                     self.slack.client.views_open(
                         trigger_id=trigger_id, view=modal_view)
 
+            # Submit modal action check
             elif payload["type"] == "view_submission":
                 callback_id = payload["view"]["callback_id"]
                 user = payload["user"]["id"]

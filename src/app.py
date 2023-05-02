@@ -7,21 +7,26 @@ import schedule
 import time
 app = Flask(__name__)
 
-slack_token = os.environ['SLACK_BOT_TOKEN']
+
 channel_id = "C04RH4ZBK5X"
 
-slack = Slack(slack_token)
+slack = Slack()
 routes = Routes(app, slack)
 
 
-def send_daily_question():
+def send_daily_question(test=False):
     today = time.strftime("%d/%m/%Y")
-    question = f"Daily update - {today}"
+    question = f"Fill out your daily update - {today}"
     slack.send_question_to_users(question, channel_id)
 
 
 def schedule_daily_question():
-    schedule.every().day.at("19:49").do(send_daily_question)
+    daily_when = "09:06"
+    schedule.every().monday.at(daily_when).do(send_daily_question)
+    schedule.every().tuesday.at(daily_when).do(send_daily_question)
+    schedule.every().wednesday.at(daily_when).do(send_daily_question)
+    schedule.every().thursday.at(daily_when).do(send_daily_question)
+    schedule.every().friday.at(daily_when).do(send_daily_question)
     while True:
         schedule.run_pending()
         time.sleep(1)
