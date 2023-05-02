@@ -1,5 +1,6 @@
 import os
 from slack_sdk import WebClient
+from os import environ
 
 
 class Slack:
@@ -16,10 +17,12 @@ class Slack:
 
     def send_question_to_users(self, question, channel=None):
         users = self.get_channel_members(channel)
+        if environ.get('DEBUG') is not None:
+            users = ["U0179K6LE3A"]
         trigger_block = self.create_trigger_block(question)
         input_block = self.create_input_block()
 
-        for user in ["U0179K6LE3A"]:
+        for user in users:
             user_info = self.client.users_info(user=user)
             if user_info["user"]["is_bot"]:
                 continue
